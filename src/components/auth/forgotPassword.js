@@ -32,25 +32,25 @@ class ForgotPassword extends Component {
       this.setState({
         errors: { ...this.state.errors, ...error }
       });
-    }
-    //Integrate Cognito here on valid form submission
+    } else {
+      //Integrate Cognito here on valid form submission
 
-    //we added email as a required field and this needs to be
-    //passed to the api as an attribute.
-    try {
-      await Auth.forgotPassword(this.state.email);
-      this.props.history.push("/forgotpasswordsubmit");
-    } catch (error){
-      let err = null;
-      !error.message ? err= {"message": error } : err = error;
-      this.setState({
-        errors: {
-          ...this.state.errors,
-          cognito: err
-        }
-      });
+      //we added email as a required field and this needs to be
+      //passed to the api as an attribute.
+      try {
+        await Auth.forgotPassword(this.state.email);
+        this.props.history.push("/forgotpasswordsubmit");
+      } catch (error){
+        let err = null;
+        !error.message ? err= {"message": error } : err = error;
+        this.setState({
+          errors: {
+            ...this.state.errors,
+            cognito: err
+          }
+        });
+      }
     }
-
   };
 
   onInputChange = event => {

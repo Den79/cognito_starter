@@ -33,28 +33,28 @@ class LogIn extends Component {
       this.setState({
         errors: { ...this.state.errors, ...error }
       });
-    }
-    //Integrate Cognito here on valid form submission
+    } else {
+      //Integrate Cognito here on valid form submission
 
-    //we added email as a required field and this needs to be
-    //passed to the api as an attribute.
-    try {
-      const user = await Auth.signIn(this.state.username,this.state.password);
-      console.log(user);
-      this.props.auth.authenticateUser(true); // check if user authenticated
-      this.props.auth.setAuthUser(user);
-      this.props.history.push("/");
-    } catch (error){
-      let err = null;
-      !error.message ? err= {"message": error } : err = error;
-      this.setState({
-        errors: {
-          ...this.state.errors,
-          cognito: err
-        }
-      });
+      //we added email as a required field and this needs to be
+      //passed to the api as an attribute.
+      try {
+        const user = await Auth.signIn(this.state.username,this.state.password);
+        console.log(user);
+        this.props.auth.authenticateUser(true); // check if user authenticated
+        this.props.auth.setAuthUser(user);
+        this.props.history.push("/");
+      } catch (error){
+        let err = null;
+        !error.message ? err= {"message": error } : err = error;
+        this.setState({
+          errors: {
+            ...this.state.errors,
+            cognito: err
+          }
+        });
+      }
     }
-
   };
 
   onInputChange = event => {
